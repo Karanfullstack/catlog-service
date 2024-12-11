@@ -1,0 +1,15 @@
+services:
+    mongodb:
+        image: mongo
+        container_name: mern-mongo-container
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+        volumes:
+            - mongodata:/data/db
+        ports:
+            - '27017:27017'
+        restart: always
+
+volumes:
+    mongodata:

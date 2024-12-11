@@ -1,19 +1,23 @@
 import config from 'config';
 import app from './app';
 import logger from './config/logger';
+import { connection } from './connection';
 
-const startServer = () => {
+const startServer = async () => {
+    const PORT: number = config.get('server.port') || 5502;
     try {
-        const PORT: number = config.get('server.port') || 5502;
+        await connection();
         app.listen(PORT, () => {
             logger.info(`Server is running at http://localhost:${PORT})}`);
         });
-    } catch (error) {
+    } catch (error: unknown) {
         if (error instanceof Error) {
             logger.error(error.message);
-            setTimeout(() => process.exit(1), 1000);
+            logger.on('finish', () => {
+                process.exit(1);
+            });
         }
     }
 };
 
-startServer();
+void startServer();
