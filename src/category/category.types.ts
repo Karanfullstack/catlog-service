@@ -1,5 +1,4 @@
-import { Document } from 'mongoose';
-
+import { Request } from 'express';
 enum PriceType {
     BASE = 'base',
     ADDITIONAL = 'additional',
@@ -15,17 +14,22 @@ interface PriceConfiguration {
     };
 }
 
-interface Attribute extends Document {
+interface Attribute {
     name: string;
     widgetType: WidgetType;
     defaulValue: string | number;
     availableOptions: string[];
 }
 
-interface Category extends Document {
+interface Category {
+    _id?: string;
     name: string;
     priceConfiguration: PriceConfiguration;
     attributes: Attribute[];
 }
 
-export { Category, Attribute, PriceConfiguration, PriceType, WidgetType };
+interface CreateCategory extends Request {
+    body: Category;
+}
+
+export { Category, Attribute, PriceConfiguration, PriceType, WidgetType, CreateCategory };
