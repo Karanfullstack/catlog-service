@@ -35,7 +35,7 @@ export const globalErrorHandler = (
                 statusCode,
                 path: req.path,
                 method: req.method,
-                location: 'Auth Server',
+                location: 'Catalog Service',
                 stack: isProduction ? null : error.stack,
             },
         ],
