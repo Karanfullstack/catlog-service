@@ -4,12 +4,14 @@ import { TYPES } from '../const';
 import { ICategoryController } from './interface/controller.interface';
 import { categoryValidation } from './category.validation';
 import { AsyncWrapper } from '../utils/async-wrapper';
+import authenticate from '../middlewares/authenticate';
 
 const router = Router();
 const categoryController = container.get<ICategoryController>(TYPES.CategoryController);
 
 router.post(
     '/',
+    authenticate,
     categoryValidation,
     AsyncWrapper(categoryController.create.bind(categoryController)),
 );

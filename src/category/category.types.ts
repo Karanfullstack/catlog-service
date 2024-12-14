@@ -32,4 +32,15 @@ interface CreateCategory extends Request {
     body: Category;
 }
 
-export { Category, Attribute, PriceConfiguration, PriceType, WidgetType, CreateCategory };
+interface AuthCookie {
+    accessToken: string;
+}
+export {
+    Category,
+    Attribute,
+    PriceConfiguration,
+    PriceType,
+    WidgetType,
+    CreateCategory,
+    AuthCookie,
+};
