@@ -1,10 +1,12 @@
-import { Router } from 'express';
 import container from '../config/inversify.config';
 import { TYPES } from '../const';
 import { ICategoryController } from './interface/controller.interface';
 import { categoryValidation } from './category.validation';
 import { AsyncWrapper } from '../utils/async-wrapper';
 import authenticate from '../middlewares/authenticate';
+import { canAccess } from '../middlewares/canAccess';
+import { ROLES } from './category.types';
+import { Router } from 'express';
 
 const router = Router();
 const categoryController = container.get<ICategoryController>(TYPES.CategoryController);
@@ -12,6 +14,7 @@ const categoryController = container.get<ICategoryController>(TYPES.CategoryCont
 router.post(
     '/',
     authenticate,
+    canAccess([ROLES.ADMIN, ROLES.MANAGER]),
     categoryValidation,
     AsyncWrapper(categoryController.create.bind(categoryController)),
 );

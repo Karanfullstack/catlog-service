@@ -20,7 +20,10 @@ interface Attribute {
     defaulValue: string | number;
     availableOptions: string[];
 }
-
+enum ROLES {
+    ADMIN = 'admin',
+    MANAGER = 'manager',
+}
 interface Category {
     _id?: string;
     name: string;
@@ -35,6 +38,15 @@ interface CreateCategory extends Request {
 interface AuthCookie {
     accessToken: string;
 }
+
+interface AuthRequest extends Request {
+    auth: {
+        sub: string;
+        role: string;
+        id?: string;
+    };
+}
+
 export {
     Category,
     Attribute,
@@ -43,4 +55,6 @@ export {
     WidgetType,
     CreateCategory,
     AuthCookie,
+    ROLES,
+    AuthRequest,
 };
