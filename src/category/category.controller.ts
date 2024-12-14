@@ -9,9 +9,7 @@ import logger from '../config/logger';
 
 @injectable()
 class CategoryController {
-    constructor(
-        @inject(TYPES.CategoryService) private categoryService: ICategoryService,
-    ) {}
+    constructor(@inject(TYPES.CategoryService) private categoryService: ICategoryService) {}
     async create(req: CreateCategory, res: Response, next: NextFunction) {
         const { name, priceConfiguration, attributes } = req.body;
         const validation = validationResult(req);
