@@ -1,5 +1,5 @@
 import { PriceType } from '../category/category.types';
-
+import { Request } from 'express';
 interface ProductConfig {
     priceType: PriceType;
     avialableOptions: {
@@ -22,4 +22,8 @@ interface Product {
     attributes: [ProductAttribute];
 }
 
-export { Product, PriceType, ProductConfig, ProductAttribute };
+interface CreateProductRequest extends Request {
+    body: Product;
+}
+
+export { Product, PriceType, ProductConfig, ProductAttribute, CreateProductRequest };
