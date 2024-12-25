@@ -19,7 +19,10 @@ interface Product {
     priceConfiguration: {
         [key: string]: ProductConfig;
     };
-    attributes: [ProductAttribute];
+    attributes: ProductAttribute[];
+    tenantId: string;
+    caregoryId: string;
+    isPublish?: boolean;
 }
 
 interface CreateProductRequest extends Request {

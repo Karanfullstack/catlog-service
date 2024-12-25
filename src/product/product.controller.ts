@@ -1,7 +1,7 @@
 import { inject } from 'inversify';
 import { TYPES } from '../const';
 import IProductService from './interfaces/service.interface';
-import { CreateProductRequest } from './product.types';
+import { CreateProductRequest, ProductAttribute, ProductConfig } from './product.types';
 import { NextFunction, Response } from 'express';
 import { validationResult } from 'express-validator';
 import createHttpError from 'http-errors';
@@ -14,10 +14,29 @@ class ProductController {
         if (!validation.isEmpty()) {
             return next(createHttpError(400, validation.array()[0].msg as string));
         }
-        const product = req.body;
+
+        let product = req.body;
+
+        // @Transform the request data into json
+        let priceConfiguration = {};
+        let attributes: ProductAttribute[] = [];
+        if (typeof product.priceConfiguration === 'string') {
+            priceConfiguration = JSON.parse(product.priceConfiguration) as {
+                [key: string]: ProductConfig;
+            };
+        }
+        if (typeof product.attributes === 'string') {
+            attributes = JSON.parse(product.attributes) as ProductAttribute[];
+        }
+        product = { ...product, priceConfiguration, attributes };
+        console.log(product.priceConfiguration);
+
         logger.info({ msg: 'Requesting Create Product', data: product });
+
         const newProduct = await this.productService.create(product);
+
         logger.info({ msg: 'Created Product Success', data: newProduct });
+
         res.status(201).json({ message: 'Created', success: true, data: newProduct });
     }
 }

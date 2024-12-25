@@ -41,6 +41,18 @@ const ProductSchema = new Schema<Product>({
         of: ProductConfigSchema,
     },
     attributes: [ProductAttributesSchema],
+    isPublish: {
+        type: Boolean,
+        default: false,
+    },
+    tenantId: {
+        type: String,
+        required: true,
+    },
+    caregoryId: {
+        type: String,
+        required: true,
+    },
 });
 
 const ProductModel = model<Product>('Product', ProductSchema);
