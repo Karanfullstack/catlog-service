@@ -1,0 +1,21 @@
+{
+    "name": "karan",
+    "description": "karan",
+    "image": "string",
+    "priceConfiguration": {
+        "Size": {
+            "priceType": "base",
+            "avialableOptions": {
+                "small": 100
+            }
+        }
+    },
+    "attributes": [
+        {
+            "name": "hit",
+            "value": true
+        }
+    ],
+    "caregoryId": "1",
+    "tenantId": "3"
+}
