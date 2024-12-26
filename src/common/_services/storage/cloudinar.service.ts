@@ -29,6 +29,15 @@ class CloudinaryService implements IStorageService {
         }
     }
 
+    async destroy(id: string): Promise<void> {
+        try {
+            await cloudinary.uploader.destroy(id);
+        } catch (error) {
+            console.error('Cloudinary destroy failed:', error);
+            throw new Error('File destroy from Cloudinary failed');
+        }
+    }
+
     uploadBuffer(file: Buffer) {
         return new Promise<UploadApiResponse>((resolve, reject) => {
             const stream = cloudinary.uploader.upload_stream(

@@ -16,4 +16,11 @@ router.post(
     AsyncWrapper(productController.create.bind(productController)),
 );
 
+router.put(
+    '/:id',
+    upload.single('image'),
+    createProductValidator,
+    AsyncWrapper(productController.update.bind(productController)),
+);
+
 export { router as productRouter };

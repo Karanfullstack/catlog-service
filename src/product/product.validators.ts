@@ -13,12 +13,12 @@ const createProductValidator = [
         .withMessage('Product description is required')
         .isString()
         .withMessage('Product description must be a string'),
-    body('image').custom((value, { req }) => {
-        if (!req.file) {
-            throw new Error('Image is required');
-        }
-        return true;
-    }),
+    // body('image').custom((value, { req }) => {
+    //     if (!req.file) {
+    //         throw new Error('Image is required');
+    //     }
+    //     return true;
+    // }),
     body('priceConfiguration').custom((priceConfiguration: string) => {
         const payload = JSON.parse(priceConfiguration) as { [key: string]: ProductConfig };
 
