@@ -1,6 +1,6 @@
 import { Product } from '../product.types';
 
 interface IProductService {
-    create(product: Product): Promise<Product>;
+    create(product: Omit<Product, 'image'>, image: Buffer): Promise<Product>;
 }
 export default IProductService;

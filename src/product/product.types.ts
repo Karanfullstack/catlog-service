@@ -26,7 +26,7 @@ interface Product {
 }
 
 interface CreateProductRequest extends Request {
-    body: Product;
+    body: Omit<Product, 'image'>;
 }
 
 export { Product, PriceType, ProductConfig, ProductAttribute, CreateProductRequest };

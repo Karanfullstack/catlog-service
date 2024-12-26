@@ -11,7 +11,7 @@ const router = Router();
 const productController = container.get<ProductController>(TYPES.ProductController);
 router.post(
     '/',
-    upload.none(),
+    upload.single('image'),
     createProductValidator,
     AsyncWrapper(productController.create.bind(productController)),
 );

@@ -15,11 +15,18 @@ class ProductController {
             return next(createHttpError(400, validation.array()[0].msg as string));
         }
 
-        let product = req.body;
+        const file = (req.file as Express.Multer.File).buffer;
 
+        if (!Buffer.isBuffer(file)) {
+            const err = createHttpError(400, 'Invalid file');
+            return next(err);
+        }
+        let product = req.body;
+        console.log(product);
         // @Transform the request data into json
-        let priceConfiguration = {};
+        let priceConfiguration: { [key: string]: ProductConfig } = {};
         let attributes: ProductAttribute[] = [];
+
         if (typeof product.priceConfiguration === 'string') {
             priceConfiguration = JSON.parse(product.priceConfiguration) as {
                 [key: string]: ProductConfig;
@@ -29,11 +36,12 @@ class ProductController {
             attributes = JSON.parse(product.attributes) as ProductAttribute[];
         }
         product = { ...product, priceConfiguration, attributes };
-        console.log(product.priceConfiguration);
+
+        console.log(product);
 
         logger.info({ msg: 'Requesting Create Product', data: product });
 
-        const newProduct = await this.productService.create(product);
+        const newProduct = await this.productService.create(product, file);
 
         logger.info({ msg: 'Created Product Success', data: newProduct });
 

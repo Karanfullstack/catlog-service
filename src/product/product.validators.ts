@@ -13,14 +13,17 @@ const createProductValidator = [
         .withMessage('Product description is required')
         .isString()
         .withMessage('Product description must be a string'),
-    body('image')
-        .exists()
-        .withMessage('Product image is required')
-        .isString()
-        .withMessage('Product image must be a string'),
+    body('image').custom((value, { req }) => {
+        if (!req.file) {
+            throw new Error('Image is required');
+        }
+        return true;
+    }),
     body('priceConfiguration').custom((priceConfiguration: string) => {
         const payload = JSON.parse(priceConfiguration) as { [key: string]: ProductConfig };
+
         const keys = Object.keys(payload);
+        console.log(keys);
         if (!keys.length) {
             throw new Error('price configuration must have alteast one key example:"Size, Crust');
         }
