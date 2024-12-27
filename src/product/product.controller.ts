@@ -15,6 +15,7 @@ import logger from '../config/logger';
 class ProductController {
     constructor(@inject(TYPES.ProductService) private productService: IProductService) {}
 
+    // @Create Product
     async create(req: CreateProductRequest, res: Response, next: NextFunction) {
         const validation = validationResult(req);
         if (!validation.isEmpty()) {
@@ -28,7 +29,6 @@ class ProductController {
             return next(err);
         }
         let product = req.body;
-        console.log(product);
 
         // @Transform the request data into json
         let priceConfiguration: { [key: string]: ProductConfig } = {};
@@ -53,6 +53,7 @@ class ProductController {
         res.status(201).json({ message: 'Created', success: true, data: newProduct });
     }
 
+    // @Update product
     async update(req: UpdateProductRequest, res: Response, next: NextFunction) {
         const validation = validationResult(req);
         if (!validation.isEmpty()) {

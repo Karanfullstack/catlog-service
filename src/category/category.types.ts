@@ -39,14 +39,6 @@ interface AuthCookie {
     accessToken: string;
 }
 
-interface AuthRequest extends Request {
-    auth: {
-        sub: string;
-        role: string;
-        id?: string;
-    };
-}
-
 export {
     Category,
     Attribute,
@@ -56,5 +48,4 @@ export {
     CreateCategory,
     AuthCookie,
     ROLES,
-    AuthRequest,
 };
