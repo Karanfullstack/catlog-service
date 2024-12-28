@@ -21,7 +21,7 @@ class CloudinaryService implements IStorageService {
                 url: data.secure_url,
                 id: data.public_id,
             };
-            console.log(payloadResult);
+
             return payloadResult;
         } catch (error) {
             console.error('Cloudinary upload failed:', error);

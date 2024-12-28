@@ -10,6 +10,7 @@ import authenticate from '../middlewares/authenticate';
 import { canAccess } from '../middlewares/canAccess';
 import { ROLES } from '../category/category.types';
 import productAccess from '../middlewares/productAccess';
+import { queryValidator } from './query.validator';
 
 const router = Router();
 const productController = container.get<ProductController>(TYPES.ProductController);
@@ -30,6 +31,12 @@ router.put(
     upload.single('image'),
     updateProductValidator,
     AsyncWrapper(productController.update.bind(productController)),
+);
+
+router.get(
+    '/',
+    queryValidator,
+    AsyncWrapper(productController.getProducts.bind(productController)),
 );
 
 export { router as productRouter };

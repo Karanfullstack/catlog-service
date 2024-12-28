@@ -2,9 +2,11 @@ import { inject, injectable } from 'inversify';
 import IProductService from './interfaces/service.interface';
 import { Product, UpdateProduct } from './product.types';
 import { TYPES } from '../const';
-import IProductRepository from './interfaces/repository.interface';
+import IProductRepository, { ProductResponse } from './interfaces/repository.interface';
 import { IStorageService } from '../common/_services/storage/storage.interface';
 import createHttpError from 'http-errors';
+
+import { IQuery } from '../common/types';
 @injectable()
 class ProductService implements IProductService {
     constructor(
@@ -14,7 +16,8 @@ class ProductService implements IProductService {
 
     async create(product: Omit<Product, 'image'>, image: Buffer): Promise<Product> {
         const uploadImage = await this.storage.upload({ file: image });
-        return this.repo.create({ ...product, image: uploadImage.name });
+        const imagePayload = { image: uploadImage.url, public_id: uploadImage.id };
+        return this.repo.create({ ...product, image: imagePayload });
     }
 
     async update(product: UpdateProduct, image: Buffer | null): Promise<Product | null> {
@@ -23,18 +26,21 @@ class ProductService implements IProductService {
             const err = createHttpError(404, 'Product not found');
             throw err;
         }
-        let productImage: string | undefined;
+        let productImage: { image: string; public_id: string } | null = null;
         if (image) {
             const imageName = await this.storage.upload({ file: image });
-            productImage = imageName.name;
-            await this.storage.destroy(findProduct.image);
+            productImage = { image: imageName.url, public_id: imageName.id };
+            await this.storage.destroy(findProduct.image.public_id);
         }
         const updatedProdudct: Product = {
             ...product,
             image: productImage ? productImage : findProduct.image,
-            _id: findProduct._id,
         };
         return await this.repo.update(updatedProdudct);
+    }
+
+    async getAll(query: IQuery): Promise<ProductResponse<Product>> {
+        return await this.repo.findAll(query);
     }
 }
 

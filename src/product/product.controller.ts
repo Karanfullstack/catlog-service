@@ -7,10 +7,11 @@ import {
     ProductConfig,
     UpdateProductRequest,
 } from './product.types';
-import { NextFunction, Response } from 'express';
-import { validationResult } from 'express-validator';
+import { NextFunction, Response, Request } from 'express';
+import { matchedData, validationResult } from 'express-validator';
 import createHttpError from 'http-errors';
 import logger from '../config/logger';
+import { IQuery } from '../common/types';
 
 class ProductController {
     constructor(@inject(TYPES.ProductService) private productService: IProductService) {}
@@ -91,6 +92,13 @@ class ProductController {
         logger.info({ msg: 'Updated Product Success', data: updateProduct });
 
         res.status(200).json({ message: 'Updated', success: true, data: updateProduct });
+    }
+
+    // @Get prodcuts
+    async getProducts(req: Request, res: Response) {
+        const validateQuery: IQuery = matchedData(req, { onlyValidData: true });
+        const result = await this.productService.getAll(validateQuery);
+        res.json(result);
     }
 }
 

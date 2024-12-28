@@ -17,7 +17,10 @@ interface Product {
     _id?: string;
     name: string;
     description: string;
-    image: string;
+    image: {
+        image: string;
+        public_id: string;
+    };
     priceConfiguration: {
         [key: string]: ProductConfig;
     };
