@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { PriceType } from '../category/category.types';
 import { Request } from 'express';
 interface ProductConfig {
@@ -22,7 +23,7 @@ interface Product {
     };
     attributes: ProductAttribute[];
     tenantId: string;
-    caregoryId: string;
+    categoryId: mongoose.Types.ObjectId;
     isPublish?: boolean;
 }
 
@@ -41,7 +42,7 @@ interface UpdateProduct {
     };
     attributes: ProductAttribute[];
     tenantId: string;
-    caregoryId: string;
+    categoryId: mongoose.Types.ObjectId;
     isPublish?: boolean;
 }
 export {

@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { PriceType, Product, ProductAttribute, ProductConfig } from './product.types';
 
 const ProductAttributesSchema = new Schema<ProductAttribute>({
@@ -49,8 +49,8 @@ const ProductSchema = new Schema<Product>({
         type: String,
         required: true,
     },
-    caregoryId: {
-        type: String,
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
 });
