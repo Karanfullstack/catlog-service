@@ -1,4 +1,4 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import { CreateCategory } from './category.types';
 import { inject } from 'inversify';
 import { TYPES } from '../const';
@@ -31,6 +31,15 @@ class CategoryController {
         });
 
         logger.info('Created Category', { id: category._id });
+    }
+
+    async getAll(_: Request, res: Response) {
+        const categories = await this.categoryService.getAll();
+        res.status(200).json({
+            success: true,
+            data: categories,
+            total: categories.length,
+        });
     }
 }
 

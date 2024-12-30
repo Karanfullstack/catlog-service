@@ -19,4 +19,5 @@ router.post(
     AsyncWrapper(categoryController.create.bind(categoryController)),
 );
 
+router.get('/', AsyncWrapper(categoryController.getAll.bind(categoryController)));
 export { router as categoryRouter };

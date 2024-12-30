@@ -7,16 +7,20 @@ import mongoose from 'mongoose';
 
 @injectable()
 class ProductRepository implements IProductRepository {
+    // @Create Product Repository
     async create(product: Product): Promise<Product> {
         return await ProductModel.create(product);
     }
+    // @Update Product Repository
     async update(product: Product): Promise<Product | null> {
         return await ProductModel.findByIdAndUpdate(product._id, product, { new: true });
     }
+    // @FindBYID Product Repository
     async findById(id: string): Promise<Product | null> {
         return await ProductModel.findById(id);
     }
 
+    // @FindAll Product Repository
     async findAll(query: IQuery): Promise<ProductResponse<Product>> {
         const filter: IQuery = {};
         if (query.categoryId && mongoose.Types.ObjectId.isValid(query.categoryId)) {

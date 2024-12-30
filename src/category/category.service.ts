@@ -11,6 +11,9 @@ class CategoryService implements ICategoryService {
     async create(category: Category): Promise<Category> {
         return await this.categoryRepo.create(category);
     }
+    async getAll(): Promise<Category[]> {
+        return await this.categoryRepo.getAll();
+    }
 }
 
 export { CategoryService };
