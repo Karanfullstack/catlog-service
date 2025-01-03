@@ -68,13 +68,10 @@ class ProductRepository implements IProductRepository {
         const data = await ProductModel.aggregatePaginate(product, { limit, page });
 
         const finalResult: ProductResponse<Product> = {
-            docs: data.docs,
-            totalDocs: data.totalDocs,
-            totalPages: data.totalPages,
-            hasNext: data.hasNextPage,
-            hasPrev: data.hasPrevPage,
-            page: data.page || page,
-            limit: data.limit || limit,
+            data: data.docs,
+            total: data.totalDocs,
+            perPage: data.limit,
+            currentPage: data.page ?? 1,
         };
         return finalResult;
     }

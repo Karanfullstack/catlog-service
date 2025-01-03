@@ -98,7 +98,7 @@ class ProductController {
     async getProducts(req: Request, res: Response) {
         const validateQuery: IQuery = matchedData(req, { onlyValidData: true });
         const result = await this.productService.getAll(validateQuery);
-        res.json(result);
+        res.json({ ...result, success: true });
     }
 }
 

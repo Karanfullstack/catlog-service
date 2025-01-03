@@ -2,13 +2,10 @@ import { IQuery } from '../../common/types';
 import { Product } from '../product.types';
 
 export interface ProductResponse<T> {
-    docs: T[] | [];
-    totalDocs: number;
-    limit: number;
-    page: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
+    data: T[] | [];
+    total: number;
+    perPage: number;
+    currentPage: number;
 }
 interface IProductRepository {
     create(product: Product): Promise<Product>;
