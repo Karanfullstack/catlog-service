@@ -1,6 +1,7 @@
 import { AggregatePaginateModel, model, Schema } from 'mongoose';
 import { Attribute, Category, PriceConfiguration, PriceType, WidgetType } from './category.types';
 import paginate from 'mongoose-aggregate-paginate-v2';
+
 const AttributeSchema = new Schema<Attribute>({
     name: {
         type: String,
@@ -14,6 +15,7 @@ const AttributeSchema = new Schema<Attribute>({
     defaulValue: {
         type: Schema.Types.Mixed,
         requried: true,
+        default: 'no',
     },
     availableOptions: {
         type: [String],

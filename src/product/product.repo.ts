@@ -28,8 +28,8 @@ class ProductRepository implements IProductRepository {
         }
         if (query.tenantId) filter.tenantId = query.tenantId;
 
-        if (query.isPublish) {
-            filter.isPublish = query.isPublish === 'true' ? true : false;
+        if (query.isPublish === 'true') {
+            filter.isPublish = query.isPublish === 'true' ? true : undefined;
         }
 
         const serrchRegx = query.q ? new RegExp(query.q, 'i') : undefined;
@@ -37,7 +37,7 @@ class ProductRepository implements IProductRepository {
         const matchQuery = { ...filter, ...(serrchRegx ? { name: serrchRegx } : {}) };
 
         const page = query.page || 1;
-        const limit = query.limit || 10;
+        const limit = query.limit || 4;
         const product = ProductModel.aggregate([
             {
                 $match: matchQuery,

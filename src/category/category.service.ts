@@ -1,5 +1,4 @@
 import { inject, injectable } from 'inversify';
-
 import { Category } from './category.types';
 import { ICategoryService } from './interface/service.interface';
 import { TYPES } from '../const';
