@@ -1,6 +1,6 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { AggregatePaginateModel, model, Schema } from 'mongoose';
 import { PriceType, Product, ProductAttribute, ProductConfig } from './product.types';
-
+import paginate from 'mongoose-aggregate-paginate-v2';
 const ProductAttributesSchema = new Schema<ProductAttribute>({
     name: {
         type: String,
@@ -33,8 +33,14 @@ const ProductSchema = new Schema<Product>({
         required: true,
     },
     image: {
-        type: String,
-        required: true,
+        image: {
+            type: String,
+            required: true,
+        },
+        public_id: {
+            type: String,
+            required: true,
+        },
     },
     priceConfiguration: {
         type: Map,
@@ -49,12 +55,12 @@ const ProductSchema = new Schema<Product>({
         type: String,
         required: true,
     },
-    caregoryId: {
-        type: String,
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
 });
-
-const ProductModel = model<Product>('Product', ProductSchema);
+ProductSchema.plugin(paginate);
+const ProductModel = model<Product, AggregatePaginateModel<Product>>('Product', ProductSchema);
 
 export default ProductModel;

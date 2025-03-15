@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { PriceType } from '../category/category.types';
 import { Request } from 'express';
 interface ProductConfig {
@@ -13,20 +14,46 @@ interface ProductAttribute {
 }
 
 interface Product {
+    _id?: string;
     name: string;
     description: string;
-    image: string;
+    image: {
+        image: string;
+        public_id: string;
+    };
     priceConfiguration: {
         [key: string]: ProductConfig;
     };
     attributes: ProductAttribute[];
     tenantId: string;
-    caregoryId: string;
+    categoryId: mongoose.Types.ObjectId;
     isPublish?: boolean;
 }
 
 interface CreateProductRequest extends Request {
     body: Omit<Product, 'image'>;
 }
-
-export { Product, PriceType, ProductConfig, ProductAttribute, CreateProductRequest };
+interface UpdateProductRequest extends Request {
+    body: Omit<Product, 'image'>;
+}
+interface UpdateProduct {
+    _id?: string;
+    name: string;
+    description: string;
+    priceConfiguration: {
+        [key: string]: ProductConfig;
+    };
+    attributes: ProductAttribute[];
+    tenantId: string;
+    categoryId: mongoose.Types.ObjectId;
+    isPublish?: boolean;
+}
+export {
+    Product,
+    PriceType,
+    ProductConfig,
+    ProductAttribute,
+    CreateProductRequest,
+    UpdateProductRequest,
+    UpdateProduct,
+};

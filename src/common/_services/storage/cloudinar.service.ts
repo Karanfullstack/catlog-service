@@ -21,11 +21,20 @@ class CloudinaryService implements IStorageService {
                 url: data.secure_url,
                 id: data.public_id,
             };
-            console.log(payloadResult);
+
             return payloadResult;
         } catch (error) {
             console.error('Cloudinary upload failed:', error);
             throw new Error('File upload to Cloudinary failed');
+        }
+    }
+
+    async destroy(id: string): Promise<void> {
+        try {
+            await cloudinary.uploader.destroy(id);
+        } catch (error) {
+            console.error('Cloudinary destroy failed:', error);
+            throw new Error('File destroy from Cloudinary failed');
         }
     }
 

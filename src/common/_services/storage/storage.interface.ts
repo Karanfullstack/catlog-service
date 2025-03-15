@@ -9,5 +9,6 @@ interface UploadResponse {
 }
 interface IStorageService {
     upload(file: FileData): Promise<UploadResponse>;
+    destroy(id: string): Promise<void>;
 }
 export { FileData, UploadResponse, IStorageService };

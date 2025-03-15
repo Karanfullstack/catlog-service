@@ -9,6 +9,10 @@ class CategoryRepository implements ICategoryRepository {
         const newCategory = await CategoryModel.create(category);
         return newCategory;
     }
+    async getAll(): Promise<Category[]> {
+        const categories = await CategoryModel.find();
+        return categories;
+    }
 }
 
 export default CategoryRepository;
