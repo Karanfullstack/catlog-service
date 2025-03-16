@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { productRouter } from './product/product.routes';
 import cors from 'cors';
 import path from 'path';
+import toppingRouter from './topping/topping.routes';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use(
 );
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
+app.use('/topping', toppingRouter);
 app.use(globalErrorHandler);
 
 export default app;

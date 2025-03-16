@@ -1,7 +1,6 @@
 import container from '../config/inversify.config';
 import ProductController from './product.controller';
 import { TYPES } from '../const';
-
 import { Router } from 'express';
 import { AsyncWrapper } from '../utils/async-wrapper';
 import { createProductValidator, updateProductValidator } from './product.validators';

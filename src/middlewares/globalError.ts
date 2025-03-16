@@ -1,5 +1,4 @@
 import { NextFunction, Response, Request } from 'express';
-
 import { HttpError } from 'http-errors';
 import logger from '../config/logger';
 import { v4 as uuidv4 } from 'uuid';
