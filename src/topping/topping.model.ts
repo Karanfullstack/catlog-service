@@ -25,6 +25,10 @@ const ToppingSchema = new mongoose.Schema<Topping>({
         type: Boolean,
         default: false,
     },
+    tenantId: {
+        type: String,
+        required: true,
+    },
 });
 
 ToppingSchema.plugin(paginate);

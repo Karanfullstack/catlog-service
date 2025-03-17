@@ -11,6 +11,8 @@ class ToppingService implements ToppingServiceI {
         @inject(TYPES.ToppingRepository) private repo: ToppingRepositoryI,
         @inject(TYPES.StorageService) private storage: IStorageService,
     ) {}
+
+    // @Creating a new topping
     async create(topping: Omit<Topping, 'image'>, image: Buffer | undefined): Promise<Topping> {
         if (!image) throw new Error('Topping image could not process in service');
         const { url, id } = await this.storage.upload({ file: image });
