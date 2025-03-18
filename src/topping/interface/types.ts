@@ -24,10 +24,12 @@ export interface ToppingQuery {
     limit?: string;
     tenantId?: string;
     categoryId: string;
+    isPublish?: string;
 }
 
 export interface ToppingFilterQuery {
     name?: RegExp;
     tenantId?: string;
     categoryId?: mongoose.Types.ObjectId;
+    isPublish?: boolean;
 }

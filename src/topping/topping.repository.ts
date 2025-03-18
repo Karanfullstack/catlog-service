@@ -23,11 +23,15 @@ class ToppingRepository implements ToppingRepositoryI {
         if (searchRegExp) filter.name = searchRegExp;
         if (query.tenantId) filter.tenantId = query.tenantId;
 
+        // isPublish filter
+        const isPublishMap: Record<string, boolean | undefined> = { true: true, false: false };
+        if (query.isPublish) {
+            filter.isPublish = isPublishMap[query.isPublish] ?? undefined;
+        }
         // convert categoryid into object id
         if (query.categoryId && mongoose.Types.ObjectId.isValid(query.categoryId)) {
             filter.categoryId = new mongoose.Types.ObjectId(query.categoryId);
         }
-        console.log(filter.categoryId);
         const page = Number(query.page) || 1;
         const limit = Number(query.limit) || 10;
 

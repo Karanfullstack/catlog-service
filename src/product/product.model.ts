@@ -47,6 +47,7 @@ const ProductSchema = new Schema<Product>({
         of: ProductConfigSchema,
     },
     attributes: [ProductAttributesSchema],
+
     isPublish: {
         type: Boolean,
         default: false,

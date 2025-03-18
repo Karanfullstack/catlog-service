@@ -99,4 +99,7 @@ export const checkQueries = [
                 return true;
             }
         }),
+    query('isPublish').optional().isBoolean().withMessage('isPublish must be a boolean'),
 ];
+
+// FIXME: isPublish not woring

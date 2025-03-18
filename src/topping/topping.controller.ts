@@ -16,7 +16,6 @@ export class ToppingController {
             return next(createHttpError(400, validation.array()[0].msg as string));
         }
         const data = req.body;
-        console.log(req.auth);
         // add tenant id if tenand id is invalid or empty string
         if (req.auth.role === 'admin' && data.tenantId === undefined) {
             return next(createHttpError(400, 'Tenant id is required'));
@@ -45,5 +44,4 @@ export class ToppingController {
         const toppings = await this.toppingService.findByAll(queryValidation);
         return res.status(200).json(toppings);
     }
-    // FIXME CATEGORES ARE NOT FETCHED USING LOOKUP
 }
