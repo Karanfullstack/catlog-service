@@ -25,7 +25,7 @@ class ToppingRepository implements ToppingRepositoryI {
 
         // convert categoryid into object id
         if (query.categoryId && mongoose.Types.ObjectId.isValid(query.categoryId)) {
-            filter.categoryId = query.categoryId;
+            filter.categoryId = new mongoose.Types.ObjectId(query.categoryId);
         }
         console.log(filter.categoryId);
         const page = Number(query.page) || 1;
@@ -53,9 +53,9 @@ class ToppingRepository implements ToppingRepositoryI {
                     ],
                 },
             },
-            // {
-            //     $unwind: '$category',
-            // },
+            {
+                $unwind: '$category',
+            },
         ]);
         return await ToppingModel.aggregatePaginate(topping, { limit, page });
     }

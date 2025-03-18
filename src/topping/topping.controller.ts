@@ -28,6 +28,8 @@ export class ToppingController {
         console.log(createTopping);
         return res.status(200).json(createTopping);
     }
+
+    // @Delete topping
     async destroy(req: ToppingRequest, res: Response, next: NextFunction) {
         const validation = validationResult(req);
         if (!validation.isEmpty()) {
@@ -37,9 +39,11 @@ export class ToppingController {
         return res.status(201).json({ message: 'Ok' });
     }
 
+    // @GetAll toppings
     async getAll(req: Request, res: Response) {
         const queryValidation: ToppingQuery = matchedData(req, { onlyValidData: true });
         const toppings = await this.toppingService.findByAll(queryValidation);
         return res.status(200).json(toppings);
     }
+    // FIXME CATEGORES ARE NOT FETCHED USING LOOKUP
 }

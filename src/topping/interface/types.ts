@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { AuthRequest } from '../../common/types';
 
 export interface Topping {
@@ -29,5 +29,5 @@ export interface ToppingQuery {
 export interface ToppingFilterQuery {
     name?: RegExp;
     tenantId?: string;
-    categoryId?: string;
+    categoryId?: mongoose.Types.ObjectId;
 }
