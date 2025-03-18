@@ -1,8 +1,9 @@
-import mongoose, { AggregatePaginateModel } from 'mongoose';
+import mongoose, { AggregatePaginateModel, Document, Schema } from 'mongoose';
 import { Topping } from './interface/types';
 import paginate from 'mongoose-aggregate-paginate-v2';
 
-const ToppingSchema = new mongoose.Schema<Topping>({
+interface ToppingDocument extends Omit<Topping, '_id'>, Document {}
+const ToppingSchema: Schema = new mongoose.Schema<Topping>({
     name: {
         type: String,
         required: [true, 'Topping name is required'],
@@ -29,11 +30,16 @@ const ToppingSchema = new mongoose.Schema<Topping>({
         type: String,
         required: true,
     },
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
+    },
 });
 
 ToppingSchema.plugin(paginate);
 
-const ToppingModel = mongoose.model<Topping, AggregatePaginateModel<Topping>>(
+const ToppingModel = mongoose.model<ToppingDocument, AggregatePaginateModel<Topping>>(
     'Topping',
     ToppingSchema,
 );

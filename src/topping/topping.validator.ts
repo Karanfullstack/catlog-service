@@ -1,5 +1,7 @@
-import { body } from 'express-validator';
+import { body, param, query } from 'express-validator';
+import mongoose, { isValidObjectId } from 'mongoose';
 
+// create topping
 export const toppingValidation = [
     body('name')
         .isString()
@@ -37,5 +39,64 @@ export const toppingValidation = [
             const isNumber = isNaN(Number(value));
             if (isNumber) throw new Error('tenatId must be a valid number');
             return true;
+        }),
+];
+
+// delete topping
+export const checkingParams = [
+    param('id')
+        .notEmpty()
+        .withMessage('Params must be provided')
+        .custom((value) => {
+            const mongovalue = mongoose.isValidObjectId(value);
+            if (!mongovalue) throw new Error('not a valid id: params:_id');
+            return true;
+        }),
+];
+
+export const checkQueries = [
+    query('q').optional().isString().withMessage('q must be a string'),
+    query('page').custom((value) => {
+        if (value) {
+            if (isNaN(Number(value))) {
+                return false;
+            }
+            return true;
+        }
+    }),
+    query('limit').custom((value) => {
+        if (value) {
+            if (isNaN(Number(value))) {
+                return false;
+            }
+            if (Number(value) > 100) {
+                return false;
+            }
+            return true;
+        }
+    }),
+    query('tenantId')
+        .optional()
+        .isString()
+        .withMessage('tenantId must be a string')
+        .custom((value) => {
+            if (value) {
+                const isNumber = isNaN(Number(value));
+                if (isNumber) throw new Error('tenatId must be a valid number');
+            }
+            return true;
+        }),
+
+    query('categoryId')
+        .optional()
+        .isString()
+        .withMessage('categoryId must be a string')
+        .custom((value) => {
+            if (value) {
+                if (!isValidObjectId(value)) {
+                    throw new Error('category id must be a valid object ids');
+                }
+                return true;
+            }
         }),
 ];
