@@ -14,8 +14,9 @@ class ToppingRepository implements ToppingRepositoryI {
         await ToppingModel.findByIdAndDelete(id);
     }
     async findById(id: string): Promise<Topping | null> {
-        return await ToppingModel.findById(id);
+        return await ToppingModel.findById(id).populate('categoryId', '-__v').exec();
     }
+
     async findByAll(query: ToppingQuery): Promise<AggregatePaginateResult<Topping>> {
         const filter: ToppingFilterQuery = {};
         const searchRegExp = query.q ? new RegExp(query.q, 'i') : undefined;

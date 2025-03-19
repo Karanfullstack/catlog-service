@@ -35,6 +35,11 @@ class ToppingService implements ToppingServiceI {
     async findByAll(query: ToppingQuery): Promise<AggregatePaginateResult<Topping>> {
         return await this.repo.findByAll(query);
     }
+
+    // @Find Topping by id
+    async findById(id: string): Promise<Topping | null> {
+        return await this.repo.findById(id);
+    }
 }
 
 export default ToppingService;

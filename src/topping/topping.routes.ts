@@ -34,5 +34,11 @@ toppingRouter.get(
     checkQueries,
     AsyncWrapper(toppingController.getAll.bind(toppingController) as unknown as RequestHandler),
 );
+// @Get topping by id
+toppingRouter.get(
+    '/:id',
+    checkingParams,
+    AsyncWrapper(toppingController.getById.bind(toppingController) as RequestHandler),
+);
 
 export default toppingRouter;

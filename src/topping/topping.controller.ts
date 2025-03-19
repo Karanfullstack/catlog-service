@@ -44,4 +44,16 @@ export class ToppingController {
         const toppings = await this.toppingService.findByAll(queryValidation);
         return res.status(200).json(toppings);
     }
+    // @Get topping by id
+    async getById(req: ToppingRequest, res: Response, next: NextFunction) {
+        const validation = validationResult(req);
+        if (!validation.isEmpty()) {
+            return next(createHttpError(400, validation.array()[0].msg as string));
+        }
+        const topping = await this.toppingService.findById(req.params.id);
+        if (!topping) {
+            return next(createHttpError(404, 'Topping not found'));
+        }
+        return res.status(200).json(topping);
+    }
 }
