@@ -14,8 +14,14 @@ export interface Topping {
     categoryId: ObjectId;
 }
 
+export type UpdateToppingType = Partial<Topping>;
+
 export interface ToppingRequest extends AuthRequest {
     body: Topping;
+}
+
+export interface UpdateToppingRequest extends AuthRequest {
+    body: Partial<Topping>;
 }
 
 export interface ToppingQuery {

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { ToppingRepositoryI } from './interface/repository.interface';
 import { ToppingServiceI } from './interface/service.interface';
-import { Topping, ToppingQuery } from './interface/types';
+import { Topping, ToppingQuery, UpdateToppingType } from './interface/types';
 import { TYPES } from '../const';
 import { IStorageService } from '../common/_services/storage/storage.interface';
 import { AggregatePaginateResult } from 'mongoose';
@@ -30,6 +30,35 @@ class ToppingService implements ToppingServiceI {
         }
         await this.storage.destroy(oldTopping.image.public_id);
         await this.repo.delete(id);
+    }
+
+    // @Update Topping
+    async update(id: string, topping: UpdateToppingType, image?: Buffer): Promise<Topping | null> {
+        const oldTopping = await this.repo.findById(id);
+        if (!oldTopping) {
+            throw new Error('Topping not found to be updated');
+        }
+        if (image) {
+            // delete old image
+            const oldImage = oldTopping.image?.public_id;
+            if (oldImage) {
+                await this.storage.destroy(oldImage);
+                console.log('image deleted');
+            }
+            // upload new image
+            const { url, id: imageId } = await this.storage.upload({ file: image });
+            return await this.repo.update(id, {
+                ...topping,
+                image: { public_id: imageId, image: url },
+            });
+        } else {
+            const oldImage = {
+                public_id: oldTopping.image!.public_id,
+                image: oldTopping.image!.image,
+            };
+
+            return await this.repo.update(id, { ...topping, image: oldImage });
+        }
     }
 
     async findByAll(query: ToppingQuery): Promise<AggregatePaginateResult<Topping>> {

@@ -17,6 +17,10 @@ class ToppingRepository implements ToppingRepositoryI {
         return await ToppingModel.findById(id).populate('categoryId', '-__v').exec();
     }
 
+    async update(id: string, topping: Topping): Promise<Topping | null> {
+        return await ToppingModel.findByIdAndUpdate(id, topping, { new: true });
+    }
+
     async findByAll(query: ToppingQuery): Promise<AggregatePaginateResult<Topping>> {
         const filter: ToppingFilterQuery = {};
         const searchRegExp = query.q ? new RegExp(query.q, 'i') : undefined;

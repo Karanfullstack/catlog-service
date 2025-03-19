@@ -2,7 +2,7 @@ import { NextFunction, Response, Request } from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import createHttpError from 'http-errors';
 import { ToppingServiceI } from './interface/service.interface';
-import { ToppingQuery, ToppingRequest } from './interface/types';
+import { ToppingQuery, ToppingRequest, UpdateToppingRequest } from './interface/types';
 import { inject } from 'inversify';
 import { TYPES } from '../const';
 
@@ -55,5 +55,18 @@ export class ToppingController {
             return next(createHttpError(404, 'Topping not found'));
         }
         return res.status(200).json(topping);
+    }
+
+    async update(req: UpdateToppingRequest, res: Response, next: NextFunction): Promise<void> {
+        const validation = validationResult(req);
+        if (!validation.isEmpty()) {
+            return next(createHttpError(400, validation.array()[0].msg as string));
+        }
+        const image = req.file?.buffer;
+        const params = req.params.id;
+        const topping = req.body;
+
+        const updatedTopping = await this.toppingService.update(params, topping, image);
+        res.status(201).json(updatedTopping);
     }
 }

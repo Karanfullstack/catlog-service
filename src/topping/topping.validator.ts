@@ -3,11 +3,7 @@ import mongoose, { isValidObjectId } from 'mongoose';
 
 // create topping
 export const toppingValidation = [
-    body('name')
-        .isString()
-        .withMessage('Name must be a string')
-        .exists()
-        .withMessage('Name cannot be empty'),
+    body('name').isString().withMessage('Name must be a string').exists().withMessage('Name cannot be empty'),
 
     body('price')
         .exists()
@@ -102,4 +98,39 @@ export const checkQueries = [
     query('isPublish').optional().isBoolean().withMessage('isPublish must be a boolean'),
 ];
 
-// FIXME: isPublish not woring
+export const checkUpdate = [
+    body('name')
+        .optional()
+        .custom((value: string) => {
+            if (value) {
+                if (value.length === 0) throw new Error('name cannot be empty');
+                return true;
+            }
+        }),
+    body('price')
+        .optional()
+        .custom((value) => {
+            if (value) {
+                const isNumber = isNaN(Number(value));
+                if (isNumber) throw new Error('price must be a number');
+                if (value < 0) throw new Error('price cannot be negative');
+                return true;
+            }
+        }),
+    body('isPublish').optional(),
+    body('tenantId')
+        .notEmpty()
+        .withMessage('Tenant id must be provided')
+        .isNumeric()
+        .withMessage('tenant id must be a string'),
+    body('image')
+        .optional()
+        .custom((value, { req }) => {
+            if (value) {
+                const isValidBuffer = (req.file as Express.Multer.File).buffer;
+                const validBuffer = Buffer.isBuffer(isValidBuffer);
+                if (!validBuffer) throw new Error('image must be a valid buffer');
+                return true;
+            }
+        }),
+];

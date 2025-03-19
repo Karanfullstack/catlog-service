@@ -2,7 +2,7 @@ import { RequestHandler, Router } from 'express';
 import { ToppingController } from './topping.controller';
 import container from '../config/inversify.config';
 import { TYPES } from '../const/index';
-import { checkingParams, checkQueries, toppingValidation } from './topping.validator';
+import { checkingParams, checkQueries, checkUpdate, toppingValidation } from './topping.validator';
 import { AsyncWrapper } from '../utils/async-wrapper';
 import { upload } from '../middlewares/upload';
 import authenticate from '../middlewares/authenticate';
@@ -39,6 +39,15 @@ toppingRouter.get(
     '/:id',
     checkingParams,
     AsyncWrapper(toppingController.getById.bind(toppingController) as RequestHandler),
+);
+
+// @Update topping
+toppingRouter.patch(
+    '/:id',
+    checkingParams,
+    upload.single('image'),
+    checkUpdate,
+    AsyncWrapper(toppingController.update.bind(toppingController) as RequestHandler),
 );
 
 export default toppingRouter;
