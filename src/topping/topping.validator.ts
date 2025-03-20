@@ -3,7 +3,11 @@ import mongoose, { isValidObjectId } from 'mongoose';
 
 // create topping
 export const toppingValidation = [
-    body('name').isString().withMessage('Name must be a string').exists().withMessage('Name cannot be empty'),
+    body('name')
+        .isString()
+        .withMessage('Name must be a string')
+        .exists()
+        .withMessage('Name cannot be empty'),
 
     body('price')
         .exists()

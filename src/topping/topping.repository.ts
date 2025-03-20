@@ -29,16 +29,16 @@ class ToppingRepository implements ToppingRepositoryI {
         if (query.tenantId) filter.tenantId = query.tenantId;
 
         // isPublish filter
-        const isPublishMap: Record<string, boolean | undefined> = { true: true, false: false };
-        if (query.isPublish) {
-            filter.isPublish = isPublishMap[query.isPublish] ?? undefined;
+
+        if (query.isPublish === 'true') {
+            filter.isPublish = query.isPublish === 'true' ? true : undefined;
         }
         // convert categoryid into object id
         if (query.categoryId && mongoose.Types.ObjectId.isValid(query.categoryId)) {
             filter.categoryId = new mongoose.Types.ObjectId(query.categoryId);
         }
         const page = Number(query.page) || 1;
-        const limit = Number(query.limit) || 10;
+        const limit = Number(query.limit) || 5;
 
         const topping = ToppingModel.aggregate([
             {
