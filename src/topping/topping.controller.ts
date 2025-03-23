@@ -62,7 +62,7 @@ export class ToppingController {
         if (!validation.isEmpty()) {
             return next(createHttpError(400, validation.array()[0].msg as string));
         }
-        const image = req.file?.buffer;
+        const image = req.file?.buffer ?? undefined;
         const params = req.params.id;
         const topping = req.body;
 

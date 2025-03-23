@@ -130,11 +130,11 @@ export const checkUpdate = [
     body('image')
         .optional()
         .custom((value, { req }) => {
-            if (value) {
-                const isValidBuffer = (req.file as Express.Multer.File).buffer;
-                const validBuffer = Buffer.isBuffer(isValidBuffer);
+            const isValidBuffer = req.file as Express.Multer.File;
+            if (isValidBuffer) {
+                const validBuffer = Buffer.isBuffer(isValidBuffer.buffer);
                 if (!validBuffer) throw new Error('image must be a valid buffer');
-                return true;
             }
+            return true;
         }),
 ];

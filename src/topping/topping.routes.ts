@@ -42,7 +42,7 @@ toppingRouter.get(
 );
 
 // @Update topping
-toppingRouter.patch(
+toppingRouter.put(
     '/:id',
     checkingParams,
     upload.single('image'),
